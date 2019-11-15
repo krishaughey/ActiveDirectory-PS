@@ -1,4 +1,4 @@
-﻿#Prompts for a sAMAccountName to get-ADuser attributes
+﻿#Prompts for a sAMAccountName to get-ADuser attributes in the current domain
 
 write-host "enter the sAMAccountName of the user and press ENTER (e.g.- khaughey)" -ForegroundColor Cyan
 
