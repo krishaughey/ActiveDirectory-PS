@@ -1,3 +1,4 @@
+#Disable user accounts from list then export the results to txt
 $UserListFile = "C:\Temp\UserListFile.txt"
 $Users = Get-Content $UserListFile
 
