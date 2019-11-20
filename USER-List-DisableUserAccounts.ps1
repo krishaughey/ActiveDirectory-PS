@@ -3,7 +3,7 @@ $Users = Get-Content $UserListFile
 
 $Action = foreach ($U in $Users)
 {
-   Get-ADUser -Identity $U | Enable-ADAccount
+   Get-ADUser -Identity $U | Disable-ADAccount
    Start-Sleep 1
    Get-ADuser -Identity $U -properties * | select samAccountName, userPrincipalName, Enabled
 }
