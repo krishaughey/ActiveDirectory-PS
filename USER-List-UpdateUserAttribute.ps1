@@ -1,11 +1,12 @@
-# Add/Update attributes on list of user accounts
-$UserListFile = "C:\Temp\UserListFile.txt"
-$Users = Get-Content $UserListFile
+# Update user attributes from CSV and export results
+Import-Module ActiveDirectory
+$ImportUser = Import-CSV "C:\Temp\TestUserList.csv"
 
-foreach ($Account in $Users)
+$Action = Foreach ($user in $ImportUser)
 {
-    # Update properties.
-    $Account.description = "Analyst 1"
-    # Update the user data in AD using the Instance parameter of Set-ADUser.
-    Set-ADUser -Instance $Account
+   $u = Get-ADuser -Identity $user."samaccountname"
+   $u | Set-ADUser -Replace @{description = "$($user."description")"}
+   start-sleep 1
+   Get-ADuser -Identity $user."samaccountname" -properties samaccountname,description | select samaccountname,description
 }
+$Action | Format-Table -AutoSize | Out-File c:\Temp\AttributeUpdateResults.csv
