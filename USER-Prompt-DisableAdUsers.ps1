@@ -1,4 +1,4 @@
-## Find Accounts by OU (gridview selection) that have not logged in (x) days or more. Log, report, and REMOVE
+## Find Accounts by OU (gridview selection) that have not logged in (x) days or more. Log, report, and DISABLE
 ## (remove "#" before "-Whatif" at Ln 55, Col 55 to report with no action taken)
 ## Export path = Ln 31
 ## author: Kristopher F. Haughey
@@ -11,7 +11,7 @@ Param ([string]$logstring)
 Add-content $Logfile -value $logstring
 }
 
-Write-Host "You are running PS Script user-prompt-REMOVEadusers.ps1" -ForegroundColor Yellow
+Write-Host "You are running PS Script user-prompt-DISABLEadusers.ps1" -ForegroundColor Yellow
 #User input for Credentials
 Write-Host "Enter your username and password" -ForegroundColor Yellow
 $Global:Credential = Get-Credential
@@ -29,7 +29,7 @@ $OU = Get-ADOrganizationalUnit -Filter * -Credential $Credential | Out-GridView 
 #Set variables for format and filenames
 $TimeStamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 $CsvExportPath = "C:\Temp\"
-$FileName = "RemoveAdUsers-$TimeStamp"
+$FileName = "DisableAdUsers-$TimeStamp"
 $Logfile = "$CsvExportPath$Filename.log"
 
 #Write all of the gathered data in to the log
@@ -51,8 +51,8 @@ $lines = $measure.Count
 LogWrite "Users= ${lines}"
 Write-Host "Users= ${lines}" -ForegroundColor Yellow
 
-#Select the user objects from the search, REMOVE then report
-$UserList | Remove-ADUser -Credential $Credential #-Whatif
+#Select the user objects from the search, DISABLE then report
+$UserList | Disable-ADAccount -Credential $Credential #-Whatif
 $UserList | Select displayname,userPrincipalName,Enabled,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged | Export-csv "$CsvExportPath$FileName.csv"
 
 LogWrite "List of Accounts= $CsvExportPath$Filename.csv"
