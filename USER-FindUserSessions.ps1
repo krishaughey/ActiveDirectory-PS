@@ -66,7 +66,7 @@ foreach ($comp in $computers){
   	$Reply = test-connection $Computer -count 1 -quiet
   	if($Reply -eq 'True'){
 		if($Computer -eq $env:COMPUTERNAME){
-			#Get explorer.exe processes without credentials parameter if the query is executed on the localhost
+			#Get explorer.exe processes without credentials parameter if the query is executed on the Local Hhost
 			$proc = gwmi win32_process -ErrorAction SilentlyContinue -computer $Computer -filter "Name = 'explorer.exe'"
 		}
 		else{

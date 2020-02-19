@@ -1,6 +1,6 @@
 Function Get-ClientWSUSSetting {
    <#
-   .SYNOPSIS  
+   .SYNOPSIS
        Retrieves the wsus client settings on a local or remove system.
 
    .DESCRIPTION
