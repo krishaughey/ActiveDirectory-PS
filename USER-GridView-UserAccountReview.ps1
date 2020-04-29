@@ -1,11 +1,12 @@
 ### Get USERS from select OU (you will be prompted for the OU you wish to search in GridView)
 ## THEN export info to CSV w/ TIMESTAMP and human-friendly lastlogon date
 ### author: Kristopher F. Haughey
+
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 $OU = Get-ADOrganizationalUnit -Filter * | Out-GridView -PassThru | Out-GridView -PassThru | Select Name,DistinguishedName
 $ExportPath = "c:\temp\"
 
-$FileName = "UAR-$timestamp.csv"
+$FileName = "$($OU.Name)-$timestamp.csv"
 
 Import-Module ActiveDirectory
 
