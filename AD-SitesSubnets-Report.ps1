@@ -14,4 +14,4 @@ foreach ($site in $sites)
 	    $sitesubnets += $temp
 	}
 }
-$sitesubnets | Export-CSV ADSubnets.csv
+$sitesubnets | Export-CSV c:\Temp\ADSubnets.csv
