@@ -8,6 +8,7 @@ $list = (Get-Content C:\Temp\Clients.txt)
 
 $Results = Foreach ($server in $list)
 {
- psexec \\$server wuauclt.exe \selfupdatemanaged
+ #psexec \\$server wuauclt.exe \selfupdatemanaged
+ Invoke-Command -Computername $server -ScriptBlock {}
 }
 $Results | Out-File C:\Temp\WsusClientCheckin_$timestamp.csv

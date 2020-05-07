@@ -3,14 +3,14 @@
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 write-host $timestamp
 
-$ErrorActionPreference= 'silentlycontinue'
-$list = (Get-Content C:\Temp\WSUS\NoWSUS.txt)
+#$ErrorActionPreference= 'silentlycontinue'
+$list = (Get-Content C:\Temp\ClientsTest.txt)
 
-Import-Module -Name C:\Temp\WSUS\Modules\Get-ClientWSUSSetting.ps1 -verbose
+Import-Module -Name C:\Temp\Module\Get-ClientWSUSSetting.ps1 -verbose
 
 $Results = Foreach ($server in $list)
 {
    Get-ClientWSUSSetting -Computername $server -ShowEnvironment | Select Computername,WUServer
 }
 
-$Results | Out-File c:\Temp\WSUS\20191114_Check.csv
+$Results | Out-File c:\Temp\WsusClientSettings_$timestamp.csv

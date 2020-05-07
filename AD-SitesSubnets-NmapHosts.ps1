@@ -22,12 +22,12 @@ foreach ($site in $sites){
 	 $sitesubnets += $temp
  	}
 }
- foreach ($subnet in $site.subnets){
+ @'foreach ($subnet in $site.subnets){
  	 $temp2 = New-Object PSCustomObject -Property @{
  	 'Site' = $site.Name
  	 'Subnet' = $subnet; }
   $NmapOutput += $temp2
-}
+}'@
 
 write-host "exporting to CSV"
 $sitesubnets | Export-CSV $OutputPath-AD-SitesSubnets-Report.csv
