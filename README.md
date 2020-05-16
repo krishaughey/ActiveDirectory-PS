@@ -2,8 +2,8 @@
 
 ![PowerShell](https://repository-images.githubusercontent.com/221074232/158c2480-5262-11ea-8af0-452a86d9e56d)
 
-**Simple Timestamp Variable**
->$timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
+##### Simple Timestamp Variable
+> $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 
 ##### Log & Timestamp Wrapper Batch
     @echo OFF - Wrapper to Log Script
