@@ -55,7 +55,7 @@ function Get-Prefix {
 Get-Prefix
 
 #Start search
-$computers = Get-ADComputer -filter {Enabled -eq 'true' -and SamAccountName -like $Prefix}
+$computers = Get-ADComputer -filter {Enabled -eq 'true' -and operatingsystem -like "*server*"}
 $CompCount = $Computers.Count
 Write-Host "Searching for $Username on $Prefix on $CompCount Computers`n"
 
