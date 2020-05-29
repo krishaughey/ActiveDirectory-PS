@@ -9,11 +9,15 @@
     @echo OFF - Wrapper to Log Script
     echo [%date% - %time%] Log start >> C:\Temp\WSUS\wsusSelfUpdateManaged-Log.txt
     powershell "\\<ServerName>\<PATH>.ps1" >> C:\Temp\WSUS\wsusSelfUpdateManaged-Log.txt 2>&1
+
 ##### Get list of all WinServers
     Get-ADComputer -LDAPFilter "(operatingSystem=Windows\20Server*)" -SearchBase "DC=<DOMAIN>,DC=<DOMAIN>"
 
 ##### Reset AD Computer Object Password
     Reset-ComputerMachinePassword -Server "<SERVER>"
+
+##### Get all domain user accounts
+    get-aduser -Filter * -searchbase "DC=<DOMAIN>,DC=<DOMAIN>" -properties displayname,samAccountName,userPrincipalName,mail,Enabled,AccountExpirationDate,LastLogon,WhenChanged,DistinguishedName | where {$_.Enabled -eq "True"} | select DisplayName,samAccountName,userPrincipalName,Enabled,Mail,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,DistinguishedName | sort name | export-csv c:\Temp\UserAccounts.csv
 
 ##### Get all websites from local IIS
     get-website | select name,id,state,physicalpath,

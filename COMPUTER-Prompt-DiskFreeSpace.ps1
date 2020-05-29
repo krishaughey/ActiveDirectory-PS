@@ -9,7 +9,7 @@ $ServerList = get-adcomputer -Filter 'operatingsystem -like "*server*" -and enab
 $ErrorActionPreference = 'silentlycontinue'
 # Write-Host "WARNING: RPC ERROR WILL OCCUR IF HOST IS NOT REACHABLE" -ForegroundColor Yellow
 # Write-Host "info on RPC errors - https://social.technet.microsoft.com/wiki/contents/articles/4494.windows-server-troubleshooting-the-rpc-server-is-unavailable.aspx" -ForegroundColor Gray
-Write-Host "Gathering info. Depending on your searbase, this might take some time... Grab a coffee?"
+Write-Host "Gathering info. Depending on your searbase, this might take some time... Grab a coffee?" -ForegroundColor Green
 $Array = @()
 foreach ($Server in $ServerList){
 $colItems = Get-WmiObject Win32_LogicalDisk -ComputerName $Server.DNSHostName | Where-Object {($_.DeviceID -eq "C:") -or ($_.DeviceID -eq "D:")}
