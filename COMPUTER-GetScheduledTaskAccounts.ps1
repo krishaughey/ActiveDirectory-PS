@@ -9,7 +9,7 @@ $ServerList = Get-Adcomputer -Filter 'operatingsystem -like "*server*" -and enab
 Write-Host "Collecting Scheduled Tasks information..." -ForegroundColor Green
 foreach ($Server in $ServerList){
   $objSchTaskService = New-Object -ComObject Schedule.Service
-  $objSchTaskService.connect($Server)
+  $objSchTaskService.connect('localhost')
   $RootFolder = $objSchTaskService.GetFolder("\")
   $ScheduledTasks = $RootFolder.GetTasks(0)
   $ScheduledTasks | Select-Object Name, LastRunTime, NextRunTime,@{Name="RunAs";Expression={[xml]$xml = $_.xml ; $xml.Task.Principals.principal.userID}}

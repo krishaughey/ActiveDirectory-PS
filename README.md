@@ -20,8 +20,10 @@
     get-aduser -Filter * -searchbase "DC=<DOMAIN>,DC=<DOMAIN>" -properties displayname,samAccountName,userPrincipalName,mail,Enabled,AccountExpirationDate,LastLogon,WhenChanged,DistinguishedName | where {$_.Enabled -eq "True"} | select DisplayName,samAccountName,userPrincipalName,Enabled,Mail,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,DistinguishedName | sort name | export-csv c:\Temp\UserAccounts.csv
 
 ##### Get all websites from local IIS
-    get-website | select name,id,state,physicalpath,
-      @{n="Bindings"; e= { ($_.bindings | select -expa collection) -join ';' }} ,
-      @{n="LogFile";e={ $_.logfile | select -expa directory}},
-      @{n="attributes"; e={($_.attributes | % { $_.name + "=" + $_.value }) -join ';' }} |
-      Export-Csv -NoTypeInformation -Path C:\my_list.csv
+    get-website | select name,id,state,physicalpath,@{n="Bindings"; e= { ($_.bindings | select -expa collection) -join ';' }} ,@{n="LogFile";e={ $_.logfile | select -expa directory}},@{n="attributes"; e={($_.attributes | % { $_.name + "=" + $_.value }) -join ';' }} | Export-Csv -NoTypeInformation -Path C:\my_list.csv
+
+##### Get Service (no disabled, no LocalSystem acct)
+    get-wmiobject win32_service | where {$_.StartName -ne "LocalSystem" -and $_.StartMode -ne "Disabled"} | format-table Name,DisplayName,State,StartMode,StartName
+
+##### Get Connection Statistics (DA/VPN)
+    Get-RemoteAccessConnectionStatistics -StartDateTime 05/27/2020 -EndDateTime 06/02/2020} | select UserName,UserActivityState,ClientExternalAddress | format-table
