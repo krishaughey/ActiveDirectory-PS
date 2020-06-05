@@ -25,3 +25,6 @@ foreach ($Server in $ServerList){
   }
   $Array | Export-Csv c:\Temp\Services-DomainAccounts_$timestamp.csv -NoTypeInformation
   Write-Host "export = c:\Temp\Services-DomainAccounts_$timestamp.csv" -ForegroundColor Cyan
+
+
+********************DRAFT*********************
