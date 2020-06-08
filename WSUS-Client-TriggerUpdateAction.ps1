@@ -14,6 +14,6 @@ $ServerList = get-adcomputer -Filter 'operatingsystem -like "*server*" -and enab
 Write-Host "Gathering info. Depending on your searbase, this might take some time... Grab a coffee?" -ForegroundColor Green
 
 $LogOutFile = Foreach ($dnshostname in $ServerList){
-  psexec \\$server wuauclt.exe "$Switches"
+  psexec \\$server wuauclt.exe $Switches
 }
 $LogOutFile | Out-File C:\Temp\wsusUpdateCheck_$timestamp.csv

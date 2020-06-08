@@ -7,7 +7,7 @@ $SearchBase = Read-Host -Prompt "-->"
 $ServerList = Get-Adcomputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' -SearchBase $SearchBase | Select-Object Name,DNSHostName
 
 Write-Host "Collecting service information..." -ForegroundColor Green
-Array = @()
+$Array = @()
 foreach ($Server in $ServerList){
 $colItems = Get-Wmiobject win32_service -ComputerName $Server | where {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne "LocalSystem" -and $_.StartName -notlike "NT AUTHORITY*" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
   foreach ($Service in $colItems){
