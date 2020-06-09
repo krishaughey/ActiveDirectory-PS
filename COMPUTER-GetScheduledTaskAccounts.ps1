@@ -23,7 +23,7 @@ $colItems =(
         'Name' = $Task.Name
         'LastRunTime' = $Task.LastRunTime
         'NextRunTime' = $Task.NextRunTime
-        'RunAs' = $Task.RunAs})
+        'RunAs' = $Task.RunAs}) #<--- Not sure if this will work
   }
   $Array | Export-Csv c:\Temp\Services-DomainAccounts_$timestamp.csv -NoTypeInformation
   Write-Host "export = c:\Temp\Services-DomainAccounts_$timestamp.csv" -ForegroundColor Cyan
