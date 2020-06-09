@@ -10,7 +10,7 @@ Write-Host "Enter the switch(es) you wish to execute (e.g. /DetectNow, /ReportNo
 $Switches = Read-Host -Prompt "-->" # add choice 1,2,3
 $ServerList = get-adcomputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' -SearchBase "$SearchBase" | Select-Object -ExpandProperty DNSHostName
 
-Write-Host "Running wuauclt with $Switches. Errors are suppressed" -ForegroundColor Green
+Write-Host "Running wuauclt with $Switches. Depending on your searbase, this might take some time... Grab a coffee?" -ForegroundColor Green
 $Array = Foreach ($Server in $ServerList){
     Invoke-Command -ComputerName $Server -ScriptBlock {wuauclt.exe $Switches}
 }
