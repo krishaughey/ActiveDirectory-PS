@@ -12,7 +12,7 @@ Function LogWrite
 Param ([string]$logstring)
 Add-content $Logfile -value $logstring
 }
-$LogPath = Read-Host -Prompt "Enter a folder path for the log file >>"
+$LogPath = Read-Host -Prompt "Enter a folder path for the log and export files >>"
 $LogFile = "$LogPath\ScheduledTasks_$timestamp.log"
 LogWrite "START SCRIPT = $TimeStamp"
 
@@ -62,6 +62,6 @@ foreach ($Server in $ServerList) {
   }
 }
 
-$Array | Export-Csv c:\Temp\ScheduledTasks_$timestamp.csv -NoTypeInformation
-LogWrite "export = c:\Temp\ScheduledTasks_$timestamp.csv"
+$Array | Export-Csv $LogPath\ScheduledTasks_$timestamp.csv -NoTypeInformation
+LogWrite "export = $LogPath\ScheduledTasks_$timestamp.csv"
 LogWrite "END SCRIPT = $TimeStamp"
