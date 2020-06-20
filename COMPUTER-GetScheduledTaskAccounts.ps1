@@ -16,20 +16,6 @@ $LogPath = Read-Host -Prompt "Enter a folder path for the log and export files >
 $LogFile = "$LogPath\ScheduledTasks_$timestamp.log"
 LogWrite "START SCRIPT = $TimeStamp"
 
-Function CollectScheduledTasks
-{
-Param ($objSchTaskService,$Connect,$RootFolder)
-$objSchTaskService = New-Object -ComObject Schedule.Service
-$Connect = $objSchTaskService.connect('localhost')
-$RootFolder = $objSchTaskService.GetFolder("\")
-$RootFolder = $objSchTaskService.GetFolder("\")
-$ScheduledTasks = $RootFolder.GetTasks(0)
-Invoke-Command -ComputerName $Server -ScriptBlock { $using:objSchTaskService }
-Invoke-Command -ComputerName $Server -ScriptBlock { $using:Connect }
-Invoke-Command -ComputerName $Server -ScriptBlock { $using:RootFolder }
-Invoke-Command -ComputerName $Server -ScriptBlock { $using:ScheduledTasks }
-Invoke-Command -ComputerName $Server -ScriptBlock { $using:ScheduledTasks | Select-Object Name, LastRunTime, NextRunTime,@{Name="RunAs";Expression={[xml]$xml = $_.xml ; $xml.Task.Principals.principal.userID}} }
-}
 ##################################################################################################################
 
 #Get ComputerObject Names from OU (prompted)
@@ -42,15 +28,22 @@ LogWrite "Collecting Scheduled Task information from $Count computers" | Format-
 
 $Array = @()
 foreach ($Server in $ServerList) {
-  if ( ([string]::IsNullOrEmpty($Server)) ) {
-    LogWrite "$Server not found"
+  if(!(Test-Connection -Cn $Server -BufferSize 16 -Count 1 -ea 0 -quiet)) {
+    LogWrite "cannot reach $Server"
+  }
+  elseif (!(Get-ScheduledTask -TaskPath "\")) {
+    LogWrite "no tasks in Task Scheduler library "\" on $Server"
   }
   else {
-    #Execute Funtion
-    $CollectScheduledTasks
-    LogWrite "function complete"
+    #Get the Scheduduled Task information
+    Invoke-Command -ComputerName $Server -ScriptBlock { $objSchTaskService = New-Object -ComObject Schedule.Service }
+    Invoke-Command -ComputerName $Server -ScriptBlock { $objSchTaskService.connect('localhost') }
+    Invoke-Command -ComputerName $Server -ScriptBlock { $RootFolder = $objSchTaskService.GetFolder("\") }
+    Invoke-Command -ComputerName $Server -ScriptBlock { $ScheduledTasks = $RootFolder.GetTasks(0) }
+    Invoke-Command -ComputerName $Server -ScriptBlock { $ScheduledTasks | Select Name, LastRunTime, NextRunTime,@{Name="RunAs";Expression={[xml]$xml = $_.xml ; $xml.Task.Principals.principal.userID}}  }
+    #LogWrite "function complete on $Server"
   }
-    foreach ($Task in $CollectScheduledTasks){
+    foreach ($Task in $CollectScheduledTasks) {
       LogWrite "creating table object"
       $Array += New-Object PsObject -Property ([ordered]@{
           'Server' = $Server
