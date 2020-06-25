@@ -40,7 +40,7 @@ foreach ($Server in $ServerList) {
     Invoke-Command -ComputerName $Server -ScriptBlock { $objSchTaskService.connect('localhost') }
     Invoke-Command -ComputerName $Server -ScriptBlock { $RootFolder = $objSchTaskService.GetFolder("\") }
     Invoke-Command -ComputerName $Server -ScriptBlock { $ScheduledTasks = $RootFolder.GetTasks(0) }
-    Invoke-Command -ComputerName $Server -ScriptBlock { $ScheduledTasks | Select Name, LastRunTime, NextRunTime,@{Name="RunAs";Expression={[xml]$xml = $_.xml ; $xml.Task.Principals.principal.userID}}  }
+    Invoke-Command -ComputerName $Server -ScriptBlock { $ScheduledTasks | Select Name, LastRunTime, NextRunTime,@{Name="RunAs";Expression={[xml]$xml = $_.xml ; $xml.Task.Principals.principal.userID}} }
     #LogWrite "function complete on $Server"
   }
     foreach ($Task in $CollectScheduledTasks) {
