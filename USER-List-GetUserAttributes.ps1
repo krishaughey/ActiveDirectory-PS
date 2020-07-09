@@ -1,1 +1,1 @@
-Get-Content c:\Scripts\NA.txt | Get-ADuser -properties * | select displayname, office, DistinguishedName | Export-csv c:\Temp\NA.csv
+Get-Content c:\Temp\UserTelephoneSAM.txt | Get-ADuser -properties Name,Mail,TelephoneNumber | select Name,Mail,TelephoneNumber | Export-csv c:\Temp\TeleFullResults.csv

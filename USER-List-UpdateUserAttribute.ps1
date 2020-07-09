@@ -1,12 +1,13 @@
 # Update user attributes from CSV and export results
 Import-Module ActiveDirectory
-$ImportUser = Import-CSV "C:\Temp\TestUserList.csv"
+$ImportUser = Import-CSV "C:\Temp\UserTelephoneImport-02.csv"
 
 $Action = Foreach ($user in $ImportUser)
 {
-   $u = Get-ADuser -Identity $user."samaccountname"
-   $u | Set-ADUser -Replace @{description = "$($user."description")"}
+   $u = Get-ADuser -Identity $user."samAccountName" -properties distinguishedName,samAccountName,TelephoneNumber
+   $u | Set-ADUser -Replace @{TelephoneNumber = "$($user."TelephoneNumber")"}
    start-sleep 1
-   Get-ADuser -Identity $user."samaccountname" -properties samaccountname,description | select samaccountname,description
+   Get-ADuser -Identity $user."samAccountName" -properties samAccountName,Mail,TelephoneNumber | select samAccountName,Mail,TelephoneNumber
 }
-$Action | Format-Table -AutoSize | Out-File c:\Temp\AttributeUpdateResults.csv
+$Action | Export-CSV c:\Temp\AttributeUpdateResults.csv -NoTypeInformation
+Read-Host "Script Completed"
