@@ -13,13 +13,13 @@ $LogPath = "c:\Temp\"
 $LogFile = "$LogPath\NTFSAccess_$timestamp.log"
 LogWrite "START SCRIPT = $TimeStamp"
 
-$Account = "CARD All Regional Vice Presidents"
+$Account = "<ADGroup or ADUser Name"
 LogWrite "Account: $Account"
 $AccessRights = "Modify, Synchronize"
 LogWrite "AccessRights: $AccessRights"
-$RootPath = "\\card.com\Offices\"
+$RootPath = "\\<HOST>\<SHARE>\"
 LogWrite "RootPath: $RootPath"
-$ChildPaths = Get-ChildItem -Path $RootPath -Directory -Name -Exclude 'Corporate','Woodland Hills'
+$ChildPaths = Get-ChildItem -Path $RootPath -Directory -Name #-Exclude '<Exlusion01>','<Exlusion02>'
 
 foreach ($FolderName in $ChildPaths){
   # Concatenate RootPath and FolderName
