@@ -10,7 +10,7 @@ $FileName = "$($OU.DistinguishedName)-$timestamp.csv"
 
 Import-Module ActiveDirectory
 $FilePath = join-path -path $ExportPath -childpath $Filename
-$GetUsers = Get-ADObject -Filter 'objectClass -eq "contact"' -SearchBase $OU.DistinguishedName -properties Name,DisplayName,distinguishedName,Mail,TargetAddress,ProxyAddresses | Select-Object Name,DisplayName,distinguishedName,Mail,TargetAddress,"ProxyAddresses"
+$GetUsers = Get-ADObject -Filter 'objectClass -eq "contact"' -SearchBase $OU.DistinguishedName -properties Name,DisplayName,distinguishedName,Mail,TargetAddress,ProxyAddresses | Select-Object Name,DisplayName,distinguishedName,Mail,TargetAddress,@{L='ProxyAddress_1'; E={$_.proxyaddresses[0]}},@{L='ProxyAddress_2';E={$_.ProxyAddresses[1]}}
 $GetUsers  | export-csv "$FilePath" -NoTypeInformation
 write-host "Process Complete" -ForegroundColor Green
 write-host "Results= $FilePath" -ForegroundColor Cyan
