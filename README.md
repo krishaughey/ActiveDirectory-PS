@@ -5,10 +5,8 @@
 ##### Simple Timestamp Variable
 > $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 
-##### Log & Timestamp Wrapper Batch
-    @echo OFF - Wrapper to Log Script
-    echo [%date% - %time%] Log start >> C:\Temp\WSUS\wsusSelfUpdateManaged-Log.txt
-    powershell "\\<ServerName>\<PATH>.ps1" >> C:\Temp\WSUS\wsusSelfUpdateManaged-Log.txt 2>&1
+##### Get AD Schema Version
+    Get-ADObject (Get-ADRootDSE).schemaNamingContext -Property objectVersion
 
 ##### Get list of all WinServers
     Get-ADComputer -LDAPFilter "(operatingSystem=Windows\20Server*)" -SearchBase "DC=<DOMAIN>,DC=<DOMAIN>"
