@@ -8,11 +8,15 @@
 ##### Get AD Schema Version
     Get-ADObject (Get-ADRootDSE).schemaNamingContext -Property objectVersion
 
+##### Get FSMO Role Holders
+    Get-ADDomainController -Filter * | Select-Object Name, Domain, Forest, OperationMasterRoles | Where-Object {$_.OperationMasterRoles} | Format-Table -AutoSize
+
 ##### Get list of all WinServers
     Get-ADComputer -LDAPFilter "(operatingSystem=Windows\20Server*)" -SearchBase "DC=<DOMAIN>,DC=<DOMAIN>"
 
 ##### Reset AD Computer Object Password
-    Reset-ComputerMachinePassword -Server "<SERVER>"
+###### run from local machine
+    Reset-ComputerMachinePassword -Server "<DOMAINCONTROLLER>"
 
 ##### Get all domain user accounts
     get-aduser -Filter * -searchbase "DC=<DOMAIN>,DC=<DOMAIN>" -properties displayname,samAccountName,userPrincipalName,mail,Enabled,AccountExpirationDate,LastLogon,WhenChanged,DistinguishedName | where {$_.Enabled -eq "True"} | select DisplayName,samAccountName,userPrincipalName,Enabled,Mail,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,DistinguishedName | sort name | export-csv c:\Temp\UserAccounts.csv
