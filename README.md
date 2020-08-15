@@ -11,6 +11,9 @@
 ##### Get FSMO Role Holders
     Get-ADDomainController -Filter * | Select-Object Name, Domain, Forest, OperationMasterRoles | Where-Object {$_.OperationMasterRoles} | Format-Table -AutoSize
 
+#### Test GPO WMI Query
+    gwmi -query "<QUERY>" -computername <COMPUTER>
+    
 ##### Get list of all WinServers
     Get-ADComputer -LDAPFilter "(operatingSystem=Windows\20Server*)" -SearchBase "DC=<DOMAIN>,DC=<DOMAIN>"
 

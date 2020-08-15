@@ -3,12 +3,12 @@
 ### author: Kristopher F. Haughey
 
 #Set variables and format TimeStamp
-$OU = "OU=OrgUnit,DC=DOMAIN,DC=com"
+$OU = "OU=Client Contacts,OU=Conctacts,DC=card,DC=com"
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 $ExportPath = "c:\temp\"
 $FileName = "$($OU)-$timestamp.csv"
 
 #Get the user accounts (root searcbase), select properties, and export
-Get-ADObject -Filter * -SearchBase $OU -properties Name | Select-Object Name | export-csv "$ExportPath$FileName"
+Get-ADObject -Filter * -SearchBase $OU -properties Name,Mail | Select-Object Name,Mail | export-csv "$ExportPath$FileName"
 write-host "Process Complete" -ForegroundColor Green
 write-host "Results= $ExportPath$timestamp.csv" -ForegroundColor Cyan
