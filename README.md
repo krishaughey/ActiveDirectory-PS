@@ -13,7 +13,7 @@
 
 #### Test GPO WMI Query
     gwmi -query "<QUERY>" -computername <COMPUTER>
-    
+
 ##### Get list of all WinServers
     Get-ADComputer -LDAPFilter "(operatingSystem=Windows\20Server*)" -SearchBase "DC=<DOMAIN>,DC=<DOMAIN>"
 
@@ -21,7 +21,7 @@
     Reset-ComputerMachinePassword -Server "<DOMAINCONTROLLER>"
 
 ##### Get Contact Group Membership
-    Get-ADObject -Filter 'objectClass -eq "contact"' -SearchBase "OU=Contacts,DC=Card,DC=Com" -properties name,mail,memberOf | where {$_.Name -eq "<EMAIL ADDRESS>""} | select name,mail,memberOf
+    Get-ADObject -Filter 'objectClass -eq "contact"' -SearchBase "OU=Contacts,DC=DOMAIN,DC=Com" -properties name,mail,memberOf | where {$_.Name -eq "<EMAIL ADDRESS>""} | select name,mail,memberOf
 
 ##### Get all websites from local IIS
     get-website | select name,id,state,physicalpath,@{n="Bindings"; e= { ($_.bindings | select -expa collection) -join ';' }} ,@{n="LogFile";e={ $_.logfile | select -expa directory}},@{n="attributes"; e={($_.attributes | % { $_.name + "=" + $_.value }) -join ';' }} | Export-Csv -NoTypeInformation -Path C:\my_list.csv
