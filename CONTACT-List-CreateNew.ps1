@@ -2,7 +2,7 @@
 #### Creates Contacts from a CSV list, places all of the attributes from the CSV in to an array, and creates new Contact objects in a selected OU
 ##### author: Kristopher F. Haughey
 
-$CSV = Import-CSV "c:\Temp\ContactImport.csv" | Where-Object { ![string]::IsNullOrWhiteSpace($_.PSObject.Properties.Value) }
+$CSV = Import-CSV "C:\Temp\ParentContactImport_20200818.csv" | Where-Object { ![string]::IsNullOrWhiteSpace($_.PSObject.Properties.Value) }
 $OU = "OU=Client Contacts,OU=Contacts,DC=card,DC=com"
 
   foreach ($Contact in $CSV) {
