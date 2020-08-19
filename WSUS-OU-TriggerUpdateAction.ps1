@@ -14,5 +14,5 @@ Write-Host "Running wuauclt with $Switches. Depending on your searbase, this mig
 $Array = Foreach ($Server in $ServerList){
     Invoke-Command -ComputerName $Server -ScriptBlock {wuauclt.exe $Switches}
 }
-$Array | Out-File C:\Temp\wsusUpdateCheck_$timestamp.csv
-Write-Host "Process complete. Report at c:\Temp\"
+# $Array | Out-File C:\Temp\wsusUpdateCheck_$timestamp.csv
+Write-Host "Process complete"
