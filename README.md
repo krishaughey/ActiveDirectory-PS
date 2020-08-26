@@ -31,3 +31,8 @@
 
 ##### Get DA/VPN Connection Statistics
     Get-RemoteAccessConnectionStatistics -StartDateTime 05/27/2020 -EndDateTime 06/02/2020} | select UserName,UserActivityState,ClientExternalAddress | format-table
+
+##### Get all DFSR Namespaces, Paths, Servers, and Basic Config
+	Get-DfsrMembership -GroupName * -ComputerName *
+	
+	
