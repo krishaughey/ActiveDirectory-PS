@@ -1,10 +1,11 @@
 
 $Roots = Get-DfsnRoot | Select-Object path
-$RootPaths = @()
-
-Foreach ($Root in $Roots){
-  $Folder = Get-DfsnFolder -path $Root\* | select path
+$Folders = Foreach($Root in $Roots){
+    Get-DfsnFolder -path $Root.path\* | Select-Object path
 }
+$TargetPaths = Foreach($Folder in $Folders){
+    Get-DfsnFolderTarget -path $Folder.path | Select-Object TargetPath
+}
+$TargetPaths | Export-csv c:\Temp\DFSN_TargetPaths.csv -NoTypeInformation
 
-"Foreach"
-Get-DfsnFolderTarget -path \\CARD\Websites\Media\SDVideos | select TargetPath
+# "WORK IN PROGRESS"
