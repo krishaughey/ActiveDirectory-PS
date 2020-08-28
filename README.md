@@ -34,5 +34,3 @@
 
 ##### Get all DFSR Namespaces, Paths, Servers, and Basic Config
 	Get-DfsrMembership -GroupName * -ComputerName *
-	
-	
