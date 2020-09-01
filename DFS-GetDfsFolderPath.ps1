@@ -2,13 +2,19 @@
 ##### author: Kristopher F. Haughey
 
 $GetRoots = Get-DfsnRoot | Select-Object path
+$Array = @()
 $Roots = $GetRoots.path | foreach-object {$_ -replace ".com",""}
-$Folders = Foreach($Root in $Roots){
+$DfsnFolders = Foreach($Root in $Roots){
+    #$Array += New-Object PsObject -Property @{'DFSNRoot' = $Root}
     Get-DfsnFolder -path $Root\* | Select-Object path
 }
-$TargetPaths = Foreach($Folder in $Folders){
-    Get-DfsnFolderTarget -path $Folder.path | Select-Object TargetPath
+$TargetPaths = Foreach($DfsnFolder in $DfsnFolders){
+    #$Array += New-Object PsObject -Property @{'Folder' = $Folder}
+    $TargetPath = Get-DfsnFolderTarget -path $DfsnFolder.path | Select-Object TargetPath
+    #$Array += New-Object PsObject -Property @{'TargetPath' = $TargetPath}
 }
-$TargetPaths | Export-csv c:\Temp\DFSN_TargetPaths.csv -NoTypeInformation
+$Array | Export-csv c:\Temp\DFSN_TargetPaths.csv -NoTypeInformation
 
-# "WORK IN PROGRESS"
+
+### The "Array" setup is broke AF.
+where {([datetime]::FromFileTime($_.lastwritetime -le (Get-Date).adddays(-30)))}
