@@ -10,6 +10,6 @@ $ExportPath = "c:\temp\"
 $FileName = "$($AdDomain.Name)-$timestamp.csv"
 
 #Get the user accounts (root searcbase), select properties, and export
-Get-ADUser -Filter * -SearchBase $($ADDomain.DistinguishedName) -properties Name, samAccountName, Description,Enabled, AccountExpirationDate,lastLogon, WhenChanged,Office | Select-Object Name,samAccountName,Description,Enabled,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,Office | export-csv "$ExportPath$FileName"
+Get-ADUser -Filter * -SearchBase $($ADDomain.DistinguishedName) -properties Name,samAccountName,Title,Description,Office,Enabled,AccountExpirationDate,lastLogon,WhenChanged,distinguishedName | Select-Object Name,samAccountName,Title,Description,Office,Enabled,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,distinguishedName | export-csv "$ExportPath$FileName" -NoTypeInformation
 write-host "Process Complete" -ForegroundColor Green
 write-host "Results= $ExportPath$timestamp.csv" -ForegroundColor Cyan

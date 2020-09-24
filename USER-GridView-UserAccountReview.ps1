@@ -10,7 +10,7 @@ $FileName = "$($OU.DistinguishedName)-$timestamp.csv"
 
 Import-Module ActiveDirectory
 $FilePath = join-path -path $ExportPath -childpath $Filename
-$GetUsers = Get-ADUser -Filter * -SearchBase $OU.DistinguishedName -properties Name,DisplayName,samAccountName,Description,Enabled,AccountExpirationDate,lastLogon,WhenChanged,Office | Select-Object Name,DisplayName,samAccountName,Description,Enabled,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,Office
+$GetUsers = Get-ADUser -Filter * -SearchBase $OU.DistinguishedName -properties Name,DisplayName,samAccountName,Title,Description,Enabled,AccountExpirationDate,lastLogon,WhenChanged,Office | Select-Object Name,DisplayName,samAccountName,Title,Description,Enabled,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,Office
 $GetUsers  | export-csv "$FilePath" -NoTypeInformation
 write-host "Process Complete" -ForegroundColor Green
 write-host "Results= $FilePath" -ForegroundColor Cyan
