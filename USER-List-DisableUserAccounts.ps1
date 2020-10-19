@@ -6,6 +6,6 @@ $Action = foreach ($U in $Users)
 {
    Get-ADUser -Identity $U | Disable-ADAccount
    Start-Sleep 1
-   Get-ADuser -Identity $U -Properties samAccountName, userPrincipalName, Enabled | select samAccountName, userPrincipalName, Enabled
+   Get-ADuser -Identity $U -Properties samAccountName, userPrincipalName, Enabled | Select-Object samAccountName, userPrincipalName, Enabled
 }
 $Action | Format-Table -AutoSize | Out-File C:\Temp\UserDisableResults.txt

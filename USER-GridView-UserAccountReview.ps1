@@ -3,7 +3,7 @@
 ### author: Kristopher F. Haughey
 
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
-$OU = Get-ADOrganizationalUnit -Filter * | Where-Object {!$_.PSIsContainer -and  ($_.Name -like "*user*") } | Out-GridView -PassThru | Out-GridView -PassThru | Select Name,DistinguishedName
+$OU = Get-ADOrganizationalUnit -Filter * | Where-Object {!$_.PSIsContainer} | Out-GridView -PassThru | Out-GridView -PassThru | Select-Object Name,DistinguishedName
 $ExportPath = "c:\temp\"
 
 $FileName = "$($OU.DistinguishedName)-$timestamp.csv"
