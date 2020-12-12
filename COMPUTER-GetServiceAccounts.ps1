@@ -1,15 +1,15 @@
-## Get Services with Domain StartName
-##### Get Services with Domain StartName. Running and not disabled - Not LocalSystem,NT AUTHORITY,$Null
+## Get Services Logon Account of Computers in an OU
+##### Get Services - running and not disabled - not $Null 
 ##### author: Kristopher F. Haughey
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 Write-Host "Enter the searchbase (e.g. <DC=CONTOSO,DC=COM>)" -ForegroundColor Green
 $SearchBase = Read-Host -Prompt "-->"
-$ServerList = Get-Adcomputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' -SearchBase $SearchBase | Select-Object Name,DNSHostName
+$ServerList = Get-ADComputer -Filter * -SearchBase $SearchBase | Select-Object Name,DNSHostName
 
 Write-Host "Collecting service information..." -ForegroundColor Green
 $Array = @()
 foreach ($Server in $ServerList){
-$colItems = Get-Wmiobject win32_service -ComputerName $Server | where {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne "LocalSystem" -and $_.StartName -notlike "NT AUTHORITY*" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
+$colItems = Get-Wmiobject win32_service -ComputerName $Server.DNSHostName | where {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
   foreach ($Service in $colItems){
     $Array += New-Object PsObject -Property ([ordered]@{
         'Server' = $Service.PSComputerName
