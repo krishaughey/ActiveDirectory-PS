@@ -7,7 +7,7 @@ $TargetOU = Read-Host -Prompt "Enter the DistinguishedName of the Target OU"
 
 foreach($Name in $OriginOU){
   # Retrieve DN
-    $ObjectDN = (Get-ADUser -Identity $_.Name).distinguishedName
+    $ObjectDN = (Get-ADObject -Identity $_.Name).distinguishedName
     # Move objects
     Move-ADObject -Identity $ObjectDN -TargetPath $TargetOU
   }
