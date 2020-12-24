@@ -19,6 +19,8 @@
 
 ##### Reset AD Computer Object Password (from local machine)
     Reset-ComputerMachinePassword -Server "<DOMAINCONTROLLER>"
+    OR
+    netdom resetpwd /Server:<DOMAINCONTROLLER> /UserD:Administrator /PasswordD:mysuperpassword
 
 ##### Get Contact Group Membership
     Get-ADObject -Filter 'objectClass -eq "contact"' -SearchBase "OU=Contacts,DC=DOMAIN,DC=Com" -properties name,mail,memberOf | where {$_.Name -eq "<EMAIL ADDRESS>""} | select name,mail,memberOf
