@@ -1,14 +1,37 @@
 
 Import-Module activedirectory
-$PC=Get-ADcomputer -Filter * -Properties IPV4Address -SearchBase "OU=Computers,OU=CARD IT,DC=CARD,DC=com"
-foreach ($Computer in $PC)
+$List = Get-ADComputer -Filter * -Properties IPV4Address -SearchBase "OU=Computers,OU=CARD IT,DC=CARD,DC=com"
+foreach ($Computer in $List) {
+    $Attributes = @{}
+    foreach ($Property in $Computers.PSObject.Properties)
     {
-        switch -wildcard ($Computer.IPV4Address)
+        Get-ADComputer -Identity $Computer.Name -Properties ipv4address | Select-Object name,ipv4address
+        if ($Property.ipv4address -like "192.168.40.*") 
             {
-                "10.40.0.*" {Get-Adcomputer $Computer.Name | Move-ADObject -Targetpath "OU=IT,OU=Corporate,OU=Offices,DC=CARD,DC=com"}
-               
+            Select-Object $Property.Name,$Property.ipv4address
             }
     }
+}
+
+
+
+
+
+
+
+
+
+    Import-Module activedirectory
+    $PC=Get-ADcomputer -Filter * -Properties IPV4Address -SearchBase "OU=Computers,OU=CARD IT,DC=CARD,DC=com"
+    foreach ($Computer in $PC)
+        {
+            switch -wildcard ($Computer.IPV4Address)
+                {
+                    "10.40.0.*" {Get-Adcomputer $Computer.Name | Move-ADObject -Targetpath "OU=IT,OU=Corporate,OU=Offices,DC=CARD,DC=com"}
+                   
+                }
+        }
+    
 
 
 
