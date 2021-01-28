@@ -1,6 +1,7 @@
 ## Get Free Disk Space
 ##### Get Free & Used Disk Space on a searchbase (filters for OS like server) - local disks C: and D: - report to CSV
 ##### author: Kristopher F. Haughey
+Import-Module ActiveDirectory
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 Write-Host "Enter the searchbase (e.g. <DC=CONTOSO,DC=COM>)" -ForegroundColor Green
 $SearchBase = Read-Host -Prompt "-->"
