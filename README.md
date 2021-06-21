@@ -21,9 +21,11 @@
     Reset-ComputerMachinePassword -Server "<DOMAINCONTROLLER>"
     OR
     netdom resetpwd /Server:<DOMAINCONTROLLER> /UserD:Administrator /PasswordD:mysuperpassword
+##### Get User Attributes (LDAP filter)
+    Get-ADObject -Filter " DisplayName -eq 'Kristopher Haughey' "
 
 ##### Get Contact Group Membership
-    Get-ADObject -Filter 'objectClass -eq "contact"' -SearchBase "OU=Contacts,DC=DOMAIN,DC=Com" -properties name,mail,memberOf | where {$_.Name -eq "<EMAIL ADDRESS>""} | select name,mail,memberOf
+    Get-ADObject -Filter " objectClass -eq 'contact' " -SearchBase "OU=Contacts,DC=DOMAIN,DC=Com" -properties name,mail,memberOf | where {$_.Name -eq "<EMAIL ADDRESS>""} | select name,mail,memberOf
 
 ##### Get all websites from local IIS
     get-website | select name,id,state,physicalpath,@{n="Bindings"; e= { ($_.bindings | select -expa collection) -join ';' }} ,@{n="LogFile";e={ $_.logfile | select -expa directory}},@{n="attributes"; e={($_.attributes | % { $_.name + "=" + $_.value }) -join ';' }} | Export-Csv -NoTypeInformation -Path C:\my_list.csv
