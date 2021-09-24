@@ -9,7 +9,7 @@ $ServerList = Get-ADComputer -Filter * -SearchBase $SearchBase | Select-Object N
 Write-Host "Collecting service information..." -ForegroundColor Green
 $Array = @()
 foreach ($Server in $ServerList){
-$colItems = Get-Wmiobject win32_service -ComputerName $Server.DNSHostName | where {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
+$colItems = Get-Wmiobject win32_service -ComputerName $Server.DNSHostName | Where-Object {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
   foreach ($Service in $colItems){
     $Array += New-Object PsObject -Property ([ordered]@{
         'Server' = $Service.PSComputerName
