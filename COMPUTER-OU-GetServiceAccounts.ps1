@@ -3,13 +3,14 @@
 ##### author: Kristopher F. Haughey
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 Write-Host "Enter the searchbase (e.g. <DC=CONTOSO,DC=COM>)" -ForegroundColor Green
+$DomainController = Get-ADDomain | Select-Object RIDMaster
 $SearchBase = Read-Host -Prompt "-->"
-$ServerList = Get-ADComputer -Filter * -SearchBase $SearchBase | Select-Object Name,DNSHostName
+$ServerList = Get-ADComputer -Server $DomainController.RIDMaster -Filter * -SearchBase $SearchBase | Select-Object Name,DNSHostName
 
 Write-Host "Collecting service information..." -ForegroundColor Green
 $Array = @()
 foreach ($Server in $ServerList){
-$colItems = Get-Wmiobject win32_service -ComputerName $Server.DNSHostName | Where-Object {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
+$colItems = Get-CimInstance win32_service -ComputerName $Server.DNSHostName | Where-Object {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
   foreach ($Service in $colItems){
     $Array += New-Object PsObject -Property ([ordered]@{
         'Server' = $Service.PSComputerName
