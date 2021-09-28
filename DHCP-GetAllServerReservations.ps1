@@ -32,7 +32,7 @@ $DHCPServer = $computername.DnsName
 }
 
 $lines += New-Object psobject -Property $Serverproperties
-$lines | select * #| Export-Csv C:\temp\$dhcpserver-ServerOption.csv -Append -NoTypeInformation
+$lines | select * | Export-Csv C:\temp\$dhcpserver-ServerOption.csv -Append -NoTypeInformation
     }
 
 
