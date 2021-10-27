@@ -27,6 +27,9 @@
 ##### Get Contact Group Membership
     Get-ADObject -Filter " objectClass -eq 'contact' " -SearchBase "OU=Contacts,DC=DOMAIN,DC=Com" -properties name,mail,memberOf | where {$_.Name -eq "<EMAIL ADDRESS>""} | select name,mail,memberOf
 
+##### Restore Delete Object
+    Get-ADObject -Filter 'samaccountname -eq "samAccountName_of_Object"' -IncludeDeletedObjects | Restore-ADObject
+
 ##### Get all websites from local IIS
     get-website | select name,id,state,physicalpath,@{n="Bindings"; e= { ($_.bindings | select -expa collection) -join ';' }} ,@{n="LogFile";e={ $_.logfile | select -expa directory}},@{n="attributes"; e={($_.attributes | % { $_.name + "=" + $_.value }) -join ';' }} | Export-Csv -NoTypeInformation -Path C:\my_list.csv
 
