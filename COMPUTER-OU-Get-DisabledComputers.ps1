@@ -2,9 +2,8 @@
 ## Get the Disabled Comptuer Objects and their attributes from an OU
 ##### author: Kristopher F. Haughey
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
-$ADDomain = Read-Host "Enter AD Domain name (e.g.- domain.local)"
-Set-ADDomain $ADDomain
-$DomainController = Get-ADDomainController -Discover -Domain $ADDomain | Select-Object Name
+
+$DomainController = Get-ADDomainController| Select-Object Name
 $SearchBase = Read-Host "Enter searchbase (e.g.- OU=Servers,DC=Domain,DC=local)"
 $ServerList = Get-AdComputer -Filter 'enabled -eq "FALSE"' -Server $DomainController.Name -SearchBase $SearchBase | Select-Object Name
 #$List = Get-Content c:\Temp\ServerList.txt

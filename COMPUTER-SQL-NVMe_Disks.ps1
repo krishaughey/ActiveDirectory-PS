@@ -1,9 +1,8 @@
 #Get all SQL Machines with Amazon EC2 NVMe Disks
 ##### author: Kristopher F. Haughey
 Import-Module ActiveDirectory
-$ADDomain = Read-Host "Enter AD Domain name (e.g.- domain.local)"
-Set-ADDomain $ADDomain
-$DomainController = Get-ADDomainController -Discover -Domain $ADDomain | Select-Object Name
+
+$DomainController = Get-ADDomainController| Select-Object Name
 $SearchBase = Read-Host "Enter searchbase (e.g.- OU=Servers,DC=Domain,DC=local)"
 $ServerList = Get-ADComputer -Filter {name -like "*sql*"} -Searchbase $SearchBase -Server $DomainController.Name | Select-Object Name
 

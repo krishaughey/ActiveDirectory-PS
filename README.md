@@ -8,6 +8,9 @@
 ##### Get AD Schema Version
     Get-ADObject (Get-ADRootDSE).schemaNamingContext -Property objectVersion
 
+##### Get All Domain Controllers in the Domain
+(Get-ADForest).Domains | %{ Get-ADDomainController -Filter * -Server $_ }
+
 ##### Get FSMO Role Holders
     Get-ADDomainController -Filter * | Select-Object Name, Domain, Forest, OperationMasterRoles | Where-Object {$_.OperationMasterRoles} | Format-Table -AutoSize
 

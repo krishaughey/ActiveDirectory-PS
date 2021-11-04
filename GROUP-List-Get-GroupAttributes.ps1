@@ -3,9 +3,8 @@
 ##### author: Kristopher F. Haughey
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 Import-Module ActiveDirectory
-$ADDomain = Read-Host "Enter AD Domain name (e.g.- domain.local)"
-Set-ADDomain $ADDomain
-$DomainController = Get-ADDomainController -Discover -Domain $ADDomain | Select-Object Name
+
+$DomainController = Get-ADDomainController| Select-Object Name
 $GroupList = Get-Content c:\Temp\GroupList.txt
 
 $Array = @()

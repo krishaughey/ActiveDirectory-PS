@@ -6,7 +6,7 @@ $ServerList = Get-Content c:\Temp\ServerList.txt
 
 $Array = @()
 foreach ($Server in $ServerList){
-$colItems = Get-Wmiobject win32_service -ComputerName $Server | where {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
+$colItems = Get-Wmiobject win32_service -ComputerName $Server | Where-Object {$_.StartMode -ne "Disabled" -and $_.State -ne "Stopped" -and $_.StartName -ne $Null} | Select-Object PSComputerName,Name,DisplayName,State,StartMode,StartName
   foreach ($Service in $colItems){
     $Array += New-Object PsObject -Property ([ordered]@{
         'Server' = $Server

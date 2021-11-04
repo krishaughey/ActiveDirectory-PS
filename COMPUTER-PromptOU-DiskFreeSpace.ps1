@@ -3,9 +3,8 @@
 ##### author: Kristopher F. Haughey
 Import-Module ActiveDirectory
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
-$ADDomain = Read-Host "Enter AD Domain name (e.g.- domain.local)"
-Set-ADDomain $ADDomain
-$DomainController = Get-ADDomainController -Discover -Domain $ADDomain | Select-Object Name
+
+$DomainController = Get-ADDomainController| Select-Object Name
 Write-Host "Enter the searchbase (e.g. <DC=CONTOSO,DC=COM>)" -ForegroundColor Green
 $SearchBase = Read-Host -Prompt "-->"
 $ServerList = get-adcomputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' -Server $DomainController.Name -SearchBase $SearchBase | Select-Object Name,dnshostname

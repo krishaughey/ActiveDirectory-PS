@@ -1,11 +1,10 @@
+#Get All Scope Exclusions by Server
 $DHCPServers = Get-DhcpServerInDC
 foreach ($computername in $DHCPServers)
 {
 ##Export List of DHCP Servers
-#$computername | Export-Csv C:\temp\DHCPServer.csv -Append -NoTypeInformation
-$scopes = Get-DHCPServerv4Scope -ComputerName $computername.DnsName |
-Select-Object "Name","SubnetMask","StartRange","EndRange","ScopeID","State"
-
+$computername | Export-Csv C:\temp\DHCPServer.csv -Append -NoTypeInformation
+$scopes = Get-DHCPServerv4Scope -ComputerName $computername.DnsName | Where-Object {$_.State -eq 'Active'} | Select-Object "Name","SubnetMask","StartRange","EndRange","ScopeID","State"
 
 $serveroptions = Get-DHCPServerv4OptionValue -ComputerName $computername.DnsName |
 Select-Object OptionID,Name,Value,VendorClass,UserClass,PolicyName
@@ -14,7 +13,7 @@ ForEach ($scope in $scopes) {
 $DHCPServer = $computername.DnsName
 
 ##Export List of scopes on each server
-#$scope | Export-Csv "C:\temp\$DHCPServer-Scopes.csv" -Append -NoTypeInformation
+$scope | Export-Csv "C:\temp\$DHCPServer-Scopes.csv" -Append -NoTypeInformation
 
     ForEach ($option in $serveroptions) {
     $lines = @()
@@ -37,22 +36,20 @@ $lines | select * | Export-Csv C:\temp\$dhcpserver-ServerOption.csv -Append -NoT
 
 
 
-    $reservations = Get-DhcpServerv4Scope -ComputerName $computername.DnsName | Get-DhcpServerv4Reservation -ComputerName $computername.DnsName |
-    Select-Object *
+    $exclusions = Get-DhcpServerv4Scope -ComputerName $computername.DnsName | Get-DhcpServerv4ExclusionRange -ComputerName $computername.DnsName |
+    Select-Object "ScopeId","StartRange","EndRange"
 
-    ForEach ($reservation in $reservations) {
+    ForEach ($exclusion in $exclusions) {
    $lines2 = @()
-   $ReservationAttributes = @{
-   ScopeId = $reservation.ScopeId
-   Name = $reservation.Name
-   ClientId = $reservation.ClientId
-   IPAddress = $reservation.IPAddress
-   Type = $reservation.Type
+   $exclusionAttributes = @{
+    StartRange = $exclusion.StartRange
+    EndRange = $exclusion.EndRange
+    ScopeId = $exclusion.ScopeId
 
 }
 
-$lines2 += New-Object psobject -Property $ReservationAttributes
-$lines2 | select ScopeId,Name,ClientId,IPAddress,Type | Export-Csv C:\temp\$dhcpserver-Reservations.csv -Append -NoTypeInformation
+$lines2 += New-Object psobject -Property $exclusionAttributes
+$lines2 | select ScopeId,StartRange,EndRange | Export-Csv C:\temp\$dhcpserver-exclusions.csv -Append -NoTypeInformation
   }
 }
 }

@@ -5,16 +5,16 @@ $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 
 $DomainController = Get-ADDomainController| Select-Object Name
 $SearchBase = Read-Host "Enter searchbase (e.g.- OU=Servers,DC=Domain,DC=local)"
-$ServerList = Get-AdComputer -Filter * -Server $DomainController.Name -SearchBase $SearchBase | Select-Object Name
-#$List = Get-Content c:\Temp\ServerList.txt
+$List = Get-Content c:\Temp\ServerList.txt
 
 $Array = @()
-foreach($ServerObject in $ServerList){
-$colItems = Get-ADComputer $ServerObject.Name -properties name,enabled,distinguishedName,description,modified | Select-Object name,enabled,distinguishedName,description,modified
+foreach($ServerObject in $List){
+$colItems = Get-ADComputer -filter {Name -like $ServerObject} -Server $DomainController.Name -SearchBase $SearchBase -properties name,ipv4Address,enabled,distinguishedName,description,modified | Select-Object name,ipv4Address,enabled,distinguishedName,description,modified
     foreach ($Server in $colItems){
         $Array += New-Object PsObject -Property ([ordered]@{
             'Name' = $Server.name
-            'Enabled' = $Server.enabled
+            'IPAddress' = $Server.ipv4Address
+            'Status' = $Server.enabled
             'DistinguishedName' = $Server.distinguishedName
             'Description' = $Server.description
             'Modified' = $Server.modified})

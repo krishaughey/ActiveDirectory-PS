@@ -2,9 +2,8 @@
 ##### author: Kristopher F. Haughey
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 Import-Module ActiveDirectory
-$ADDomain = Read-Host "Enter AD Domain name (e.g.- domain.local)"
-Set-ADDomain $ADDomain
-$DomainController = Get-ADDomainController -Discover -Domain $ADDomain | Select-Object Name
+
+$DomainController = Get-ADDomainController| Select-Object Name
 #$SearchBase = Read-Host "Enter searchbase (e.g.- OU=Servers,DC=Domain,DC=local)"
 $GroupList = Get-Content c:\Temp\GroupList.txt
 
