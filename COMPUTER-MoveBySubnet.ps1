@@ -1,6 +1,6 @@
 
 Import-Module activedirectory
-$List = Get-ADComputer -Filter * -Properties IPV4Address -SearchBase "OU=Computers,OU=CARD IT,DC=CARD,DC=com"
+$List = Get-ADComputer -Filter * -Properties IPV4Address -SearchBase "OU=Computers,OU=<OU> IT,DC=<Domain>,DC=com"
 foreach ($Computer in $List) {
     $Attributes = @{}
     foreach ($Property in $Computers.PSObject.Properties)
@@ -22,12 +22,12 @@ foreach ($Computer in $List) {
 
 
     Import-Module activedirectory
-    $PC=Get-ADcomputer -Filter * -Properties IPV4Address -SearchBase "OU=Computers,OU=CARD IT,DC=CARD,DC=com"
+    $PC=Get-ADcomputer -Filter * -Properties IPV4Address -SearchBase "OU=Computers,OU=<OU> IT,DC=<Domain>,DC=com"
     foreach ($Computer in $PC)
         {
             switch -wildcard ($Computer.IPV4Address)
                 {
-                    "10.40.0.*" {Get-Adcomputer $Computer.Name | Move-ADObject -Targetpath "OU=IT,OU=Corporate,OU=Offices,DC=CARD,DC=com"}
+                    "10.40.0.*" {Get-Adcomputer $Computer.Name | Move-ADObject -Targetpath "OU=IT,OU=Corporate,OU=Offices,DC=<Domain>,DC=com"}
                    
                 }
         }
@@ -37,7 +37,7 @@ foreach ($Computer in $List) {
 
 Import-Module ActiveDirectory
 $Computers = Import-CSV "C:\Temp\ComputerList.csv" | Where-Object { ![string]::IsNullOrWhiteSpace($_.PSObject.Properties.Value) }
-$OU = "OU=Client Contacts,OU=Contacts,DC=card,DC=com"
+$OU = "OU=Client Contacts,OU=Contacts,DC=<Domain>,DC=com"
 foreach ($Computers in $CSV) {
     $Attributes = @{}
     foreach ($Property in $Computers.PSObject.Properties) {
@@ -69,8 +69,8 @@ foreach ($Computers in $CSV) {
 
 
 Import-Module ActiveDirectory
-$OriginOU = "OU=Computers,OU=CARD IT,DC=CARD,DC=com"
-$TargetOU = "OU=IT,OU=Corporate,OU=Offices,DC=CARD,DC=com"
+$OriginOU = "OU=Computers,OU=<OU> IT,DC=<Domain>,DC=com"
+$TargetOU = "OU=IT,OU=Corporate,OU=Offices,DC=<Domain>,DC=com"
 $ComputerList = Get-ADcomputer -Filter * -SearchBase $OriginOU | Select-Object distinguishedName
 foreach ($Computer in $CompterList) {
     Move-ADObject -Identity $Computer.distinguishedName -Targetpath $TargetOU

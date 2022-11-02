@@ -2,7 +2,7 @@
 ##### author: Kristopher F. Haughey
 
 $Server = Read-Host -Prompt "Enter the hostname of the DNS server -->"
-$zones = Invoke-Command -ComputerName NS01.card.com -ScriptBlock { Get-DNSServerZone | Select -ExpandProperty ZoneName }
+$zones = Invoke-Command -ComputerName NS01.<DOMAIN>.com -ScriptBlock { Get-DNSServerZone | Select -ExpandProperty ZoneName }
 $results = foreach ($zone in $zones) {
     $zoneData = Get-DnsServerResourceRecord $zone
     foreach ($record in $zoneData)

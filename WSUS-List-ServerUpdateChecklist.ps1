@@ -12,12 +12,12 @@
 # add TEMP directory, if not there
 # ask for script target (host/list)
 # ask which test/report to run (or all)
-# compare list of service accounts to "card\serviceaccounts" and give a simple verification prompt
+# compare list of service accounts to "<DOMAIN>serviceaccounts" and give a simple verification prompt
 # get pending updates waiting for restart
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 $ServerList = Get-Content -Path "c:\Temp\ServerList.txt"
 
-#SERVICE ACCOUNTS REPORT -- CARD Computers in list
+#SERVICE ACCOUNTS REPORT -- Computers in list
 Write-Host "Collecting service information..." -ForegroundColor Green
 $ServiceArray = @()
 foreach ($Server in $ServerList){
@@ -35,7 +35,7 @@ $colItems_Service = Get-Wmiobject win32_service -ComputerName $Server.DNSHostNam
 $ServiceArray | export-csv c:\Temp\Services-DomainAccounts_$timestamp.csv -NoTypeInformation
 Write-Host "service account report complete" -ForegroundColor Green
 $ServiceAccountsMembership = Get-ADGroupMember -Identity "ServiceAccounts" | Select-Object Name
-Write-Host "check against the membership of CARD\ServiceAccounts" -ForegroundColor Green
+Write-Host "check against the membership of <DOMAIN>ServiceAccounts" -ForegroundColor Green
 $ServiceAccountsMembership #this would be removed
 
 #SCHEDULED TASKS REPORT

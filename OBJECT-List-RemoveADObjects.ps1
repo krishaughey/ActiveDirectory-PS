@@ -4,6 +4,6 @@
 
 $ObjectList = Get-Content c:\Temp\Clients.txt
 foreach($Object in $ObjectList) {
-    $DN = Get-ADObject -filter {Name -like $Object} -SearchBase "OU=Client Contacts,OU=Contacts,DC=card,DC=com" -properties distinguishedName | Select-Object distinguishedName
+    $DN = Get-ADObject -filter {Name -like $Object} -SearchBase "OU=Client Contacts,OU=Contacts,DC=<Domain>,DC=com" -properties distinguishedName | Select-Object distinguishedName
     Remove-ADObject $DN.distinguishedName -Confirm:$false
 }

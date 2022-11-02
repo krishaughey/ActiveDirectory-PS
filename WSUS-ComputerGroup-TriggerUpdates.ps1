@@ -13,7 +13,7 @@ $GroupName = Read-Host
 $Switches = "/reportnow /detectnow /updatenow"
 
 Import-Module PoshWSUS
-Connect-PSWSUSServer -WsusServer wsus1.card.com -port 8530
+Connect-PSWSUSServer -WsusServer wsus1.<DOMAIN>.com -port 8530
 
 $GroupMembers = Get-PSWSUSClientsInGroup -Name $GroupName
 foreach ($Computer in $GroupMembers) {

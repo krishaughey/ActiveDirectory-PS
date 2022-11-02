@@ -5,7 +5,7 @@
 
 #$SearchBase = Read-Host -Prompt "Enter the DN for your search base-->"
 #$Groups =
-Get-ADGroup -Filter * -SearchBase "OU=Groups,OU=Alameda,OU=Offices,DC=CARD,DC=com" -properties members | select name, @{Name=‘Members’;Expression={$_.members -join “;”}} | export-csv c:\Temp\AlamedaGroups.csv -NoTypeInformation
+Get-ADGroup -Filter * -SearchBase "OU=Groups,OU=Alameda,OU=Offices,DC=<Domain>,DC=com" -properties members | select name, @{Name=‘Members’;Expression={$_.members -join “;”}} | export-csv c:\Temp\AlamedaGroups.csv -NoTypeInformation
 
 #$Groups | export-csv c:\Temp\AlamedaGroups_$timestamp.csv -NoTypeInformation
 

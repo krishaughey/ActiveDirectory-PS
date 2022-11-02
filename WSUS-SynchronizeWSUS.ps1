@@ -3,7 +3,7 @@
 $timestamp = Get-Date -Format s #| ForEach-Object { $_ -replace ":", "." }
 
 Import-Module PoshWSUS
-Connect-PSWSUSServer -WsusServer wsus1.card.com -port 8530
+Connect-PSWSUSServer -WsusServer wsus1.<DOMAIN>.com -port 8530
 Start-PSWSUSSync
 Write-Host "Synchronization completed"
 $timestamp

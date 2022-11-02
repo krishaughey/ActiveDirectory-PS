@@ -4,7 +4,7 @@
 Import-Module ActiveDirectory
 
 #Set Variables
-$OU = "OU=Client Contacts,OU=Contacts,DC=card,DC=com"
+$OU = "OU=Client Contacts,OU=Contacts,DC=<Domain>,DC=com"
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 $ExportPath = "c:\temp\"
 $FileName = "$($OU)-$timestamp.csv"

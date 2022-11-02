@@ -7,6 +7,6 @@ $IncludedInstallationStates = "Downloaded","InstalledPendingReboot","NotInstalle
 $UpdateApprovalAction = "Install"
 
 Import-Module PoshWSUS
-Connect-PSWSUSServer -WsusServer wsus1.card.com -port 8530
+Connect-PSWSUSServer -WsusServer wsus1.<DOMAIN>.com -port 8530
 $GetUpdates = Get-PSWSUSUpdatePerClient -UpdateScope (New-PSWSUSUpdateScope -ApprovedStates $ApprovedStates -ExcludedInstallationStates $ExcludedInstallationStates -IncludedInstallationStates $IncludedInstallationStates -UpdateApprovalAction $UpdateApprovalAction) | Select-Object "UpdateTitle","UpdateKB","Computername","UpdateApprovalAction","UpdateInstallationState","UpdateApprovalTargetGroupId" #| Where-Object {$_.UpdateApprovalAction -eq "Install"} #the prior where-object will filter out updates that are applied, pending but are in "unapproved" state 
 $GetUpdates | Export-CSV c:\Temp\UpdatesPerClient_$timestamp.csv -NoTypeInformation
