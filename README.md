@@ -46,4 +46,4 @@
 	Get-DfsrMembership -GroupName * -ComputerName *
 
 ##### CERT - Repair Private Key
-    certutil -repairstore my "00ad1b93158058b35b"
+    certutil -repairstore my "00ad1bxxxxxxxxxxxx"
