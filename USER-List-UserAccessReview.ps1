@@ -2,4 +2,4 @@
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
 Import-Module ActiveDirectory
 
-Get-Content C:\Temp\UserListFile.txt | Get-ADuser -properties Name, samAccountName, Enabled, AccountExpirationDate,lastLogon, WhenChanged, employeeNumber, extensionAttribute6, extensionAttribute9, Office, Country | Select-Object Name, samAccountName, Enabled, AccountExpirationDate, @{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}}, WhenChanged, employeeNumber, extensionAttribute6, extensionAttribute9, Office, Country | export-csv c:\Temp\UAR_Q3_2019_DisabledUsersInfo-$timestamp.csv
+Get-Content C:\Temp\UserList.txt | Get-ADuser -Properties Name, samAccountName, Enabled, AccountExpirationDate, lastLogon, WhenChanged, employeeID, employeeNumber, Office, Country | Select-Object Name, samAccountName, Enabled, AccountExpirationDate, @{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}}, WhenChanged, employeeID, employeeNumber, Office, Country | Export-CSV c:\Temp\UsersInfo-$timestamp.csv
