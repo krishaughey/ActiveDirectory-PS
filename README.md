@@ -12,7 +12,7 @@
     (Get-ADForest).Domains | %{ Get-ADDomainController -Filter * -Server $_ }
 
 ##### Get All Domain Controllers in another Domain
-    (Get-ADForest -server <DOMAIN NAME>).Domains | %{ Get-ADDomainController -Filter * -Server $_ } | export-csv c:\Temp\Levlad_DC.csv -NoTypeInformation
+    (Get-ADForest -server <DOMAIN NAME>).Domains | %{ Get-ADDomainController -Filter * -Server $_ } | export-csv c:\Temp\<DOMAIN NAME>DC.csv -NoTypeInformation
 
 ##### Get FSMO Role Holders
     Get-ADDomainController -Filter * | Select-Object Name, Domain, Forest, OperationMasterRoles | Where-Object {$_.OperationMasterRoles} | Format-Table -AutoSize
