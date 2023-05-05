@@ -1,5 +1,5 @@
-﻿ # Update user attributes from CSV and export results
-## using a list of samAcccountNames/usernames, SET user attributes specificed and export to CSV
+﻿# Get user attributes from CSV and export results
+## using a list of samAcccountNames/usernames, GET user attributes specificed and export to CSV
 ##### author: Kristopher F. Haughey
 Write-Host "Importing Modules, loading c:\Temp\UserList.csv, and getting AD User Account Attributes. Please standby..." -ForegroundColor Cyan
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
