@@ -6,8 +6,8 @@ Import-Module ActiveDirectory
 
 $DomainController = Get-ADDomainController| Select-Object Name
 $SearchBase = Read-Host "Enter searchbase (e.g.- OU=Servers,DC=Domain,DC=local)"
-$ServerList = Get-AdComputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' -Server $DomainController.Name -SearchBase $SearchBase | Select-Object Name,dnshostname
-#$ServerList = Get-Content c:\Temp\ServerList.txt
+#$ServerList = Get-AdComputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' -Server $DomainController.Name -SearchBase $SearchBase | Select-Object Name,dnshostname
+$ServerList = Get-Content c:\Temp\ServerList.txt
 
 $Array = @()
 foreach($ServerObject in $ServerList){
