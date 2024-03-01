@@ -2,7 +2,7 @@
 # change line 1 to the appropriate domain
 ### author: Kristopher F. Haughey
 
-$AdDomain = "<DOMAIN>
+$AdDomain = "<DOMAIN>"
 $AllUsers = Get-ADUser -Server $AdDomain -Filter *
 
 foreach ($u in $AllUsers){
