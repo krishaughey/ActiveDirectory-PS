@@ -1,7 +1,7 @@
-﻿#Set GPO Security for WORKVIVO Homepage GPO
+﻿#Set GPO Security for One or More GPO Objects
 Import-Module GroupPolicy
 
-$GpoName = "Arbonne Workvivo Home Page"
+$GpoName = "<NAME>"
 
 Set-GPPermission -Name $GpoName -TargetName "Authenticated Users" -TargetType Group -PermissionLevel GpoApply
-Set-GPPermission -Name $GpoName -TargetName "DLS-Intranet Home GPO" -TargetType Group -PermissionLevel None
+Set-GPPermission -Name $GpoName -TargetName "<AD OBJECT>" -TargetType Group -PermissionLevel None
