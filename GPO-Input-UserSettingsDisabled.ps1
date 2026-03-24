@@ -11,6 +11,3 @@ $GpoObject = Get-Gpo -Name "$GpoName" #-Server $DC
 $GpoStatus = $GpoObject.GpoStatus
 
 write-host $GpoObject.GpoStatus
-
-$GpoStatus="UserSettingsDisabled"
-write-host $GpoStatus
