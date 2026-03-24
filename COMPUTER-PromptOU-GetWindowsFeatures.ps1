@@ -10,7 +10,7 @@ $ServerList = Get-ADComputer -Filter 'operatingsystem -like "*server*" -and enab
 Write-Host "Gathering info. Depending on your searbase, this might take some time... Grab a coffee?" -ForegroundColor Green
 $Array = @()
 foreach ($Server in $ServerList){
-$colItems = Get-WindowsFeature | Select-Object displayName,installed,installState,postConfigurationNeeded | Where-Object {$_.PostConfigurationNeeded -eq $True}
+$colItems = Get-WindowsFeature -ComputerName $Server.dnshostname | Select-Object displayName,installed,installState,postConfigurationNeeded | Where-Object {$_.PostConfigurationNeeded -eq $True}
   foreach ($Feature in $colItems){
     $Array += New-Object PsObject -Property ( [ordered]@{
     'serverName' = $Server.name
