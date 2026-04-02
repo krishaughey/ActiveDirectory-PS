@@ -1,15 +1,15 @@
-### Get all user accounts and report properties
-## THEN export info to CSV w/ TIMESTAMP and human-friendly lastlogon date
-### author: Kristopher F. Haughey
+#Get All Inactive User Accounts 
+## Get all user accounts that are enabled but no logon and inactive by a date threshold (line 7)
+##### author: Kristopher F. Haughey
+
 Import-Module ActiveDirectory
 
-#Set variables and format TimeStamp
+##Set variables and format TimeStamp
+$days = "-180"
+
 $AdDomain = Get-ADDomain
 $timestamp = Get-Date -Format s | ForEach-Object { $_ -replace ":", "." }
-$ExportPath = "c:\temp\"
 $FileName = "$($AdDomain.Name)-$timestamp.csv"
 
-#Get the user accounts (root searcbase), select properties, and export
-Get-ADUser -Filter * -SearchBase $($ADDomain.DistinguishedName) -properties Name,samAccountName,Title,Description,Office,Enabled,AccountExpirationDate,lastLogon,WhenChanged,distinguishedName | Select-Object Name,samAccountName,Title,Description,Office,Enabled,AccountExpirationDate,@{n='LastLogon';e={[DateTime]::FromFileTime($_.LastLogon)}},WhenChanged,distinguishedName | export-csv "$ExportPath$FileName" -NoTypeInformation
-write-host "Process Complete" -ForegroundColor Green
-write-host "Results= $ExportPath$timestamp.csv" -ForegroundColor Cyan
+Get-ADUser -Filter {-not ( lastlogontimestamp -like "*") -and (enabled -eq $true) -and (passwordNeverExpires -ne "true") } | Export-Csv c:\Temp\"$FileName"_NoLogon.csv -NoTypeInformation
+Get-ADUser -Filter * -Properties Name,Enabled,LastlogonTimeStamp,PasswordNeverExpires | Where-Object {([datetime]::FromFileTime($_.lastlogonTimeStamp) -le (Get-Date).adddays($days)) -and ($_.passwordNeverExpires -ne "true") } | Select-Object Name,DistinguishedName,Enabled,SamaccountName,@{n='LastLogonTimeStamp';e={[DateTime]::FromFileTime($_.lastlogonTimeStamp)}},PasswordNeverExpires | Export-CSV c:\Temp\"$Filename"_Inactive.csv -NoTypeInformation
