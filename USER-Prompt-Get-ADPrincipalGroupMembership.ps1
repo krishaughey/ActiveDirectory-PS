@@ -1,4 +1,4 @@
-﻿# Get Group Membership or AD User by First and Last Name Search
+﻿# Get Group Membership of AD User by First and Last Name Search
 ### searches givenName and surName by partial or full string
 ##### author: Kristopher F. Haughey
 ##### 20260409
